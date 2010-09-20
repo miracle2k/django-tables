@@ -89,8 +89,7 @@ class NumberColumn(Column):
     conventionally right-aligned."""
     
     def __init__(self, *args, **kwargs):
-        # Column.__init__(self, *args, **kwargs)
-        super(NumberColumn, self).__init__(args, kwargs)
+        Column.__init__(self, *args, **kwargs)
         if not self.tagprops.has_key('align'):
             self.tagprops['align'] = 'right'
 
