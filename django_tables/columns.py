@@ -50,7 +50,7 @@ class Column(object):
 
     def __init__(self, verbose_name=None, name=None, default=None, data=None,
                  visible=True, inaccessible=False, sortable=None,
-                 direction=ASC, tagprops={}):
+                 direction=ASC, attrs={}):
         self.verbose_name = verbose_name
         self.name = name
         self.default = default
@@ -64,7 +64,7 @@ class Column(object):
         self.inaccessible = inaccessible
         self.sortable = sortable
         self.direction = direction
-        self.tagprops = copy.deepcopy(tagprops)
+        self.attrs = copy.deepcopy(attrs)
 
         self.creation_counter = Column.creation_counter
         Column.creation_counter += 1
@@ -90,8 +90,8 @@ class NumberColumn(Column):
     
     def __init__(self, *args, **kwargs):
         Column.__init__(self, *args, **kwargs)
-        if not self.tagprops.has_key('align'):
-            self.tagprops['align'] = 'right'
+        if not self.attrs.has_key('align'):
+            self.attrs['align'] = 'right'
 
 class NoWrapColumn(Column):
     """A column which will not wrap to multiple lines. You may wish to contain
@@ -101,6 +101,6 @@ class NoWrapColumn(Column):
     
     def __init__(self, *args, **kwargs):
         # Column.__init__(self, *args, **kwargs)
-        if not self.tagprops.has_key('nowrap'):
-            self.tagprops['nowrap'] = 'nowrap'
+        if not self.attrs.has_key('nowrap'):
+            self.attrs['nowrap'] = 'nowrap'
         

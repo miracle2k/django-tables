@@ -277,7 +277,7 @@ class BoundColumn(StrAndUnicode):
         self.declared_name = name
         # expose some attributes of the column more directly
         self.visible = column.visible
-        self.tagprops = column.tagprops
+        self.attrs = column.attrs
 
     @property
     def accessor(self):
@@ -356,11 +356,11 @@ class BoundRow(object):
 
         render_func = getattr(self.table, 'render_%s' % name, False)
         if render_func:
-            return Cell(render_func(self.data), tagprops=column.tagprops, \
-                    is_ordered=column.is_ordered)
+            return Cell(render_func(self.data), column=column, \
+                    attrs=column.attrs, is_ordered=column.is_ordered)
         else:
-            return Cell(self._default_render(column), \
-                    tagprops=column.tagprops, is_ordered=column.is_ordered)
+            return Cell(self._default_render(column), column=column, \
+                    attrs=column.attrs, is_ordered=column.is_ordered)
 
     def _default_render(self, column):
         """Returns a cell's content. This is used unless the user
@@ -621,9 +621,10 @@ class Cell(object):
     dictionary of properties for assigning to the corresponding table data tag.
     """
 
-    def __init__(self, data, tagprops={}, is_ordered=False, **kwargs):
+    def __init__(self, data, column, attrs={}, is_ordered=False, **kwargs):
         self.data = data
-        self.tagprops = tagprops
+        self.column = column
+        self.attrs = attrs
         self.is_ordered = is_ordered
 
     def __unicode__(self):
