@@ -50,7 +50,7 @@ class Column(object):
 
     def __init__(self, verbose_name=None, name=None, default=None, data=None,
                  visible=True, inaccessible=False, sortable=None,
-                 direction=ASC, attrs={}):
+                 direction=ASC, extra={}):
         self.verbose_name = verbose_name
         self.name = name
         self.default = default
@@ -64,7 +64,7 @@ class Column(object):
         self.inaccessible = inaccessible
         self.sortable = sortable
         self.direction = direction
-        self.attrs = copy.deepcopy(attrs)
+        self.extra = copy.deepcopy(extra)
 
         self.creation_counter = Column.creation_counter
         Column.creation_counter += 1
