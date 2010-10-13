@@ -1,5 +1,7 @@
+import copy
+
 __all__ = (
-    'Column', 'TextColumn', 'NumberColumn',
+    'Column', 'TextColumn', 'NumberColumn', 'NoWrapColumn',
 )
 
 class Column(object):
@@ -48,7 +50,7 @@ class Column(object):
 
     def __init__(self, verbose_name=None, name=None, default=None, data=None,
                  visible=True, inaccessible=False, sortable=None,
-                 direction=ASC):
+                 direction=ASC, attrs={}):
         self.verbose_name = verbose_name
         self.name = name
         self.default = default
@@ -62,6 +64,7 @@ class Column(object):
         self.inaccessible = inaccessible
         self.sortable = sortable
         self.direction = direction
+        self.attrs = copy.deepcopy(attrs)
 
         self.creation_counter = Column.creation_counter
         Column.creation_counter += 1
@@ -82,4 +85,22 @@ class TextColumn(Column):
     pass
 
 class NumberColumn(Column):
-    pass
+    """A special type of column for displaying number values, which are 
+    conventionally right-aligned."""
+    
+    def __init__(self, *args, **kwargs):
+        Column.__init__(self, *args, **kwargs)
+        if not self.attrs.has_key('align'):
+            self.attrs['align'] = 'right'
+
+class NoWrapColumn(Column):
+    """A column which will not wrap to multiple lines. You may wish to contain
+    data within an additional "div" or "span" tag which has the "overflow" 
+    property set to hidden/scroll/auto, as appropriate -- otherwise it may
+    make your tables unexpectedly and inconveniently wide."""
+    
+    def __init__(self, *args, **kwargs):
+        # Column.__init__(self, *args, **kwargs)
+        if not self.attrs.has_key('nowrap'):
+            self.attrs['nowrap'] = 'nowrap'
+        
