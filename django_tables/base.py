@@ -356,11 +356,9 @@ class BoundRow(object):
 
         render_func = getattr(self.table, 'render_%s' % name, False)
         if render_func:
-            return Cell(render_func(self.data), column=column, \
-                    extra=column.extra, is_ordered=column.is_ordered)
+            return Cell(render_func(self.data), column=column)
         else:
-            return Cell(self._default_render(column), column=column, \
-                    extra=column.extra, is_ordered=column.is_ordered)
+            return Cell(self._default_render(column), column=column)
 
     def _default_render(self, column):
         """Returns a cell's content. This is used unless the user
@@ -622,11 +620,10 @@ class Cell(object):
     dictionary of properties for assigning to the corresponding table data tag.
     """
 
-    def __init__(self, data, column, extra={}, is_ordered=False, **kwargs):
+    def __init__(self, data, column):
         self.data = data
         self.column = column
-        self.extra = extra
-        self.is_ordered = is_ordered
+        self.extra = self.column.extra
 
     def __unicode__(self):
         """Returns a unicode representation of the cell's data"""
