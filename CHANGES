@@ -1,0 +1,8 @@
+0.3 (??)
+    Backwards-incompatible changes
+
+    - Iterating over a row now yields instances of a new Cell class, rather
+      than the actual data. The Cell objects tries to behave as smartly as
+      possible to accommodate most use cases, but some code may very well
+      break. The appropriate fix will likely be acccessing the raw data
+      using ``cell_instance.data``.
