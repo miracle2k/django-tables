@@ -2,10 +2,20 @@ import copy
 from django.http import Http404
 from django.core import paginator
 from django.utils.datastructures import SortedDict
-from django.utils.encoding import force_unicode, StrAndUnicode
+from django.utils.encoding import force_unicode
 from django.utils.text import capfirst
 from columns import Column
 from options import options
+
+try:
+    from django.utils.encoding import StrAndUnicode
+except ImportError:
+    from django.utils.encoding import python_2_unicode_compatible
+
+    @python_2_unicode_compatible
+    class StrAndUnicode:
+        def __str__(self):
+            return self.code
 
 
 __all__ = ('BaseTable', 'options')
